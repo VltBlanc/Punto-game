@@ -1,0 +1,111 @@
+
+Type Abstrait : Carte
+Attributs :
+Couleur : {jaune, rouge, bleu, vert}
+Valeur : Entier de 1 à 9 inclus.
+
+Contraintes : 
+|| Chaque joueur possède initialement 18 cartes de sa couleur respective. 
+|| Il possède chaque valeur (de 1 à 9) en double. 
+|| Toutes les cartes sont disposées face cachée dans la pile (pioche) du joueur.
+------------------------------------------------------------------------------------------------------------
+Type Abstrait : Plateau
+init :
+||Rôle : Crée et initialise un plateau vide 
+||Pré :
+||Post :
+|Résultat : Renvoie un plateau ne contenant aucune carte (toutes les cases sont libres)
+          || (La grille se fixe à partir de la première carte posée)
+Invariant : 
+
+
+possibilité_poser_carte :
+|| Rôle : Vérifie si la carte peut être posée à la case choisie 
+|| Pré : La carte est valide et les coordonnées sont des entiers
+        || - (Le plateau est vide) OU (La case est adjacente à une carte déjà présente par un côté ou un coin)
+        || ET (La case est vide) OU (La valeur de la nouvelle carte est strictement supérieure  l'ancienne)
+        || ET (L'écart entre les cartes les plus éloignées sur le plateau, incluant celle-ci, ne dépasse pas 6 cases en largeur et en hauteur)
+|| Post : Aucune modification du plateau (fonction d'observation uniquement)
+|| Résultat : Renvoie Vrai si toutes les conditions sont respectées, Faux sinon 
+ 
+Poser_carte : 
+||Rôle : Pose une carte sur le plateau 
+||Pré :posibilité_poser_carte(carte) = True
+||Post :
+||Résultat : renvoie le plateau avec un changement  d'état (pose la carte à la case choisie)
+
+Victoire_manche  : 
+||Rôle : 
+   ||indique si un joueur a aligné 5 cartes de sa couleur 
+   ||sinon si un joueur a le plus de 4 cartes alignées que l'autre
+   ||sinon si un joueur a le plus de 3 cartes alignées que l'autre 
+   ||sinon si un joueur a le plus de 2 cartes alignées que l'autre 
+   ||sinon égalité 
+||Pré : 
+||Post : 
+||Résultat :
+(invariant : il y a moins de 5 cartes de la même couleurs alignées (verticalement,horizontalement, diagonalement ))
+------------------------------------------------------------------------------------------------------------
+
+Type abstrait : Joueur 
+Attributs  : 
+-main : l'ensemble de la pile de carte qu'il a (de couleur unique)
+-Nom : un nom pour le distinger
+-Couleur : (rouge, jaune, vert, bleu)
+-Nombre de victoire de partie  (condition : inférieur ou égale à deux)
+
+init : 
+||Rôle : initialise un joueur 
+||Pre : il y a un maximum de deux joueurs
+||Post : la couleur attribuée n'est pas la même que les celle des autres joueurs
+||Résultat : renvoie un joueur avec sa main, son nom, sa couleur et son nombre de victoire de partie = 0
+
+Tirer : 
+||Rôle : Le joueur tire une carte 
+||Pré : sa main n'est pas vide  
+||Post : 
+||Résultat : renvoie une carte de sa main
+Invariant : 
+------------------------------------------------------------------------------------------------------------
+
+
+Type abstrait : Jeu
+
+Changement_joueur : 
+Rôle : Change le joueur qui joue
+Pré : 
+Post : le nouveau joueur n'est pas le même que l'ancien
+Résultat : Donne la main à l'autre joueur 
+
+Victoire_jeu : 
+Rôle : Compte le nombre de parties gagnées, et regarde si égale 2 
+Pré : 
+Post :
+Résultat : renvoie true si un joueur à deux parties gagnées, false sinon  
+(invariant : le nombre de parties gagnées pour chaque joueur est strictement inférieur à deux )
+
+
+
+//à deux joueurs pour gagner il faut aligner 5 cartes (horizontalement, verticalmement, diagonalement )
+------------------------------------------------------------------------------------------------------------
+Scénario d'utilisation : 
+
+1- Initialisation : On initialise les deux joueurs et le plateau (init_joueur et init_plateau).
+
+2- Début de la partie : Tant que personne n'a gagné le jeu (Victoire_jeu est faux) :
+
+3- Réinitialisation : On vide le plateau pour la nouvelle manche.
+
+4- Boucle de manche : Tant qu'il n'y a ni victoire ni égalité sur le plateau : 
+    4.1 Le joueur courant tire une carte (tirer). 
+    4.2 Le joueur choisit une case. Tant que possibilité_poser_carte renvoie Faux, il doit choisir une autre case. 
+    4.3 On place la carte sur le plateau (poser_carte). 
+    4.4 On vérifie l'état de la manche (Victoire_manche). 
+    4.5 Si la manche n'est pas finie, on change de joueur (Changement_joueur).
+
+5- Fin de manche : Lorsqu'un joueur gagne la manche, on incrémente son compteur de victoires.
+
+6- Vérification de fin de partie :
+    Si un joueur a atteint 2 victoires (Victoire_jeu est vrai), la partie s'arrête et on annonce le vainqueur.
+    Sinon, on recommence une nouvelle manche (retour à l'étape 2).
+ 
