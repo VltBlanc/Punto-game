@@ -51,7 +51,7 @@ Victoire_manche : Plateau x Joueur -> Boolean
 
 Type abstrait : Joueur 
 Propriétés  : 
--Main : l'ensemble de la pile de carte qu'il a (de couleur unique)
+-Main : l'ensemble de la pile de carte qu'il a (de couleur unique)  (mélangé aléatoirement)
 -Nom : un nom pour le distinger
 -Couleur : (rouge, jaune, vert, bleu)
 -Nombre de victoire de manche (condition : inférieur ou égale à deux)
@@ -65,7 +65,7 @@ init :
 init : Main x Nom x Couleur x Nombre de victoire de manche x SonTour -> Joueur
 
 Tirer : 
-||Rôle : Le joueur tire une carte 
+||Rôle : Le joueur tire une carte au dessus de la main
 ||Pré : sa main n'est pas vide  
 ||Post : La carte tirée ne peut pas avoir était déjà tirée 2 fois.
          La taille de la main diminue de 1.
