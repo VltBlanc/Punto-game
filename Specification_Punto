@@ -1,6 +1,6 @@
 
 Type Abstrait : Carte
-Attributs :
+Propriétés :
 -Couleur : {jaune, rouge, bleu, vert}
 -Valeur : Entier de 1 à 9 inclus.
 
@@ -14,24 +14,25 @@ init :
 ||Rôle : Crée et initialise un plateau vide 
 ||Pré :
 ||Post :
-|Résultat : Renvoie un plateau ne contenant aucune carte (toutes les cases sont libres)
-          || (La grille se fixe à partir de la première carte posée) 
+|Résultat : Renvoie un plateau ne contenant aucune carte (toutes les cases sont libres) 
+init : -> Plateau
 
-
-possibilité_poser_carte :
+Possibilité_poser_carte :
 || Rôle : Vérifie si la carte peut être posée à la case choisie 
-|| Pré : La carte est valide et les coordonnées sont des entiers
+|| Pré : La carte est valide :
         || - (Le plateau est vide) OU (La case est adjacente à une carte déjà présente par un côté ou un coin)
         || ET (La case est vide) OU (La valeur de la nouvelle carte est strictement supérieure  l'ancienne)
         || ET (L'écart entre les cartes les plus éloignées sur le plateau, incluant celle-ci, ne dépasse pas 6 cases en largeur et en hauteur)
 || Post : Aucune modification du plateau (fonction d'observation uniquement)
 || Résultat : Renvoie Vrai si toutes les conditions sont respectées, Faux sinon 
+Posibilité_poser_carte : Plateau x Carte -> Boolean
  
 Poser_carte : 
 ||Rôle : Pose une carte sur le plateau 
 ||Pré : posibilité_poser_carte(carte) = True
 ||Post : 
 ||Résultat : renvoie le plateau avec un changement  d'état (pose la carte à la case choisie)
+Poser_carte : Plateau x Carte -> Plateau
 
 Victoire_manche  : 
 ||Rôle : 
@@ -44,20 +45,24 @@ Victoire_manche  :
 ||Post : Ajouter 1 au Nombre de victoire de manche du joueur qui a gagné
 ||Résultat : renvoie true si un joueur a gagné la manche
 ||Invariant : il y au plus de 5 cartes de la même couleurs alignées (verticalement,horizontalement, diagonalement )
+Victoire_manche : Plateau x Joueur -> Boolean
+
 ------------------------------------------------------------------------------------------------------------
 
 Type abstrait : Joueur 
-Attributs  : 
--main : l'ensemble de la pile de carte qu'il a (de couleur unique)
+Propriétés  : 
+-Main : l'ensemble de la pile de carte qu'il a (de couleur unique)
 -Nom : un nom pour le distinger
 -Couleur : (rouge, jaune, vert, bleu)
 -Nombre de victoire de manche (condition : inférieur ou égale à deux)
+- SonTour : désigne la personne qui à le tour (True si la personne joue, False sinon)
 
 init : 
 ||Rôle : initialise un joueur 
 ||Pre : il y a un maximum de deux joueurs
 ||Post : la couleur attribuée n'est pas la même que les celle des autres joueurs
 ||Résultat : renvoie un joueur avec sa main, son nom, sa couleur et son nombre de victoire de partie = 0
+init : Main x Nom x Couleur x Nombre de victoire de manche -> Joueur
 
 Tirer : 
 ||Rôle : Le joueur tire une carte 
@@ -66,6 +71,7 @@ Tirer :
          La taille de la main diminue de 1.
 ||Résultat : renvoie une carte de sa main
 ||Invariant : Le nombre total de carte (dans la main + poser sur le plateau) est égal à 18 pour chaque joueur
+Tirer : Joueur -> Carte
 ------------------------------------------------------------------------------------------------------------
 
 
@@ -75,7 +81,9 @@ Changement_joueur :
 ||Rôle : Change le joueur qui joue
 ||Pré : 
 ||Post : le nouveau joueur n'est pas le même que l'ancien
-||Résultat : Donne la main à l'autre joueur 
+||Résultat : Donne la main à l'autre joueur :
+            Change SonTour à Vrai l'autre joueur et Faux au joueur actuel
+Changement_joueur : Joueur x Joueur -> Joueur x Joueur
 
 Victoire_jeu : 
 ||Rôle : Compte le nombre de parties gagnées, et regarde si égale 2 
@@ -83,6 +91,7 @@ Victoire_jeu :
 ||Post : 
 ||Résultat : renvoie true si un joueur à deux parties gagnées, false sinon  
 ||Invariant : le nombre de parties gagnées pour chaque joueur est strictement inférieur à trois
+Victoire_jeu : Joueur -> Boolean
 
 
 
