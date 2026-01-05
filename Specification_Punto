@@ -25,7 +25,7 @@ Possibilité_poser_carte :
         || ET (L'écart entre les cartes les plus éloignées sur le plateau, incluant celle-ci, ne dépasse pas 6 cases en largeur et en hauteur)
 || Post : Aucune modification du plateau (fonction d'observation uniquement)
 || Résultat : Renvoie Vrai si toutes les conditions sont respectées, Faux sinon 
-Posibilité_poser_carte : Plateau x Carte -> Boolean
+Possibilité_poser_carte : Plateau x Carte -> Boolean
  
 Poser_carte : 
 ||Rôle : Pose une carte sur le plateau 
