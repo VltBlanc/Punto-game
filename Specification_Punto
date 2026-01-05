@@ -1,8 +1,8 @@
 
 Type Abstrait : Carte
 Attributs :
-Couleur : {jaune, rouge, bleu, vert}
-Valeur : Entier de 1 à 9 inclus.
+-Couleur : {jaune, rouge, bleu, vert}
+-Valeur : Entier de 1 à 9 inclus.
 
 Contraintes : 
 || Chaque joueur possède initialement 18 cartes de sa couleur respective. 
@@ -15,8 +15,7 @@ init :
 ||Pré :
 ||Post :
 |Résultat : Renvoie un plateau ne contenant aucune carte (toutes les cases sont libres)
-          || (La grille se fixe à partir de la première carte posée)
-Invariant : 
+          || (La grille se fixe à partir de la première carte posée) 
 
 
 possibilité_poser_carte :
@@ -30,8 +29,8 @@ possibilité_poser_carte :
  
 Poser_carte : 
 ||Rôle : Pose une carte sur le plateau 
-||Pré :posibilité_poser_carte(carte) = True
-||Post :
+||Pré : posibilité_poser_carte(carte) = True
+||Post : 
 ||Résultat : renvoie le plateau avec un changement  d'état (pose la carte à la case choisie)
 
 Victoire_manche  : 
@@ -42,9 +41,9 @@ Victoire_manche  :
    ||sinon si un joueur a le plus de 2 cartes alignées que l'autre 
    ||sinon égalité 
 ||Pré : 
-||Post : 
-||Résultat :
-(invariant : il y a moins de 5 cartes de la même couleurs alignées (verticalement,horizontalement, diagonalement ))
+||Post : Ajouter 1 au Nombre de victoire de manche du joueur qui a gagné
+||Résultat : renvoie true si un joueur a gagné la manche
+||Invariant : il y au plus de 5 cartes de la même couleurs alignées (verticalement,horizontalement, diagonalement )
 ------------------------------------------------------------------------------------------------------------
 
 Type abstrait : Joueur 
@@ -52,7 +51,7 @@ Attributs  :
 -main : l'ensemble de la pile de carte qu'il a (de couleur unique)
 -Nom : un nom pour le distinger
 -Couleur : (rouge, jaune, vert, bleu)
--Nombre de victoire de partie  (condition : inférieur ou égale à deux)
+-Nombre de victoire de manche (condition : inférieur ou égale à deux)
 
 init : 
 ||Rôle : initialise un joueur 
@@ -63,26 +62,27 @@ init :
 Tirer : 
 ||Rôle : Le joueur tire une carte 
 ||Pré : sa main n'est pas vide  
-||Post : 
+||Post : La carte tirée ne peut pas avoir était déjà tirée 2 fois.
+         La taille de la main diminue de 1.
 ||Résultat : renvoie une carte de sa main
-Invariant : 
+||Invariant : Le nombre total de carte (dans la main + poser sur le plateau) est égal à 18 pour chaque joueur
 ------------------------------------------------------------------------------------------------------------
 
 
 Type abstrait : Jeu
 
 Changement_joueur : 
-Rôle : Change le joueur qui joue
-Pré : 
-Post : le nouveau joueur n'est pas le même que l'ancien
-Résultat : Donne la main à l'autre joueur 
+||Rôle : Change le joueur qui joue
+||Pré : 
+||Post : le nouveau joueur n'est pas le même que l'ancien
+||Résultat : Donne la main à l'autre joueur 
 
 Victoire_jeu : 
-Rôle : Compte le nombre de parties gagnées, et regarde si égale 2 
-Pré : 
-Post :
-Résultat : renvoie true si un joueur à deux parties gagnées, false sinon  
-(invariant : le nombre de parties gagnées pour chaque joueur est strictement inférieur à deux )
+||Rôle : Compte le nombre de parties gagnées, et regarde si égale 2 
+||Pré : 
+||Post : 
+||Résultat : renvoie true si un joueur à deux parties gagnées, false sinon  
+||Invariant : le nombre de parties gagnées pour chaque joueur est strictement inférieur à trois
 
 
 
