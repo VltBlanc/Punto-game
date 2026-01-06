@@ -8,7 +8,32 @@ Contraintes :
 || Chaque joueur possède initialement 18 cartes de sa couleur respective. 
 || Il possède chaque valeur (de 1 à 9) en double. 
 || Toutes les cartes sont disposées face cachée dans la pile (pioche) du joueur.
+
 ------------------------------------------------------------------------------------------------------------
+
+Type abstrait : Position
+|| Représente une case du plateau de jeu.
+
+Propriétés :
+|| Coordonnée horizontale
+|| Coordonnée verticale
+
+Egalité_position :
+    || Rôle : Déterminer si deux positions désignent exactement la même case du plateau.
+
+|| Pré : Les deux positions sont valides.
+
+|| Post :
+    || Aucune modification de l’état du jeu.
+    || Fonction d’observation uniquement.
+
+|| Résultat :
+    || Renvoie Vrai si et seulement si les deux positions correspondent à une même case du plateau.
+    || Renvoie Faux sinon.
+Egalité_position : Position x Position -> Bool
+
+------------------------------------------------------------------------------------------------------------
+
 Type Abstrait : Plateau
 init :
 ||Rôle : Crée et initialise un plateau vide 
@@ -25,14 +50,14 @@ Possibilité_poser_carte :
         || ET (L'écart entre les cartes les plus éloignées sur le plateau, incluant celle-ci, ne dépasse pas 6 cases en largeur et en hauteur)
 || Post : Aucune modification du plateau (fonction d'observation uniquement)
 || Résultat : Renvoie Vrai si toutes les conditions sont respectées, Faux sinon 
-Possibilité_poser_carte : Plateau x Carte -> Boolean
+Possibilité_poser_carte : Plateau x Carte x Position -> Bool
  
 Poser_carte : 
-||Rôle : Pose une carte sur le plateau 
+||Rôle : Pose une carte sur le plateau à la position 
 ||Pré : posibilité_poser_carte(carte) = True
 ||Post : 
 ||Résultat : renvoie le plateau avec un changement  d'état (pose la carte à la case choisie)
-Poser_carte : Plateau x Carte -> Plateau
+Poser_carte : Plateau x Carte  x Position -> Plateau
 
 Victoire_manche  : 
 ||Rôle : — Détermine l’issue de la manche à partir de l’état du plateau
@@ -47,10 +72,7 @@ Victoire_manche  :
 ||Résultat :
     || Renvoie le joueur gagnant si la manche est remportée,
     || Renvoie Aucun sinon.
-||Invariant :
 Victoire_manche : Plateau -> Joueur U {Aucun}
-
-
 
 Ajouter_victoire_manche :
 || Rôle : Incrémente le nombre de victoires de manche d’un joueur.
@@ -88,8 +110,8 @@ Tirer :
 ||Résultat : renvoie une carte de sa main
 ||Invariant : Le nombre total de carte (dans la main + poser sur le plateau) est égal à 18 pour chaque joueur
 Tirer : Joueur -> Carte
-------------------------------------------------------------------------------------------------------------
 
+------------------------------------------------------------------------------------------------------------
 
 Type abstrait : Jeu
 
@@ -109,10 +131,10 @@ Victoire_jeu :
 ||Invariant : le nombre de parties gagnées pour chaque joueur est strictement inférieur à trois
 Victoire_jeu : Joueur -> Boolean
 
-
-
 //à deux joueurs pour gagner il faut aligner 5 cartes (horizontalement, verticalmement, diagonalement )
+
 ------------------------------------------------------------------------------------------------------------
+
 Scénario d'utilisation : 
 
 1- Initialisation : On initialise les deux joueurs et le plateau (init_joueur et init_plateau).
