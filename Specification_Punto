@@ -4,6 +4,7 @@ Propriétés :
 -Couleur : {jaune, rouge, bleu, vert}
 -Valeur : Entier de 1 à 9 inclus.
 
+
 Contraintes : 
 || Chaque joueur possède initialement 18 cartes de sa couleur respective. 
 || Il possède chaque valeur (de 1 à 9) en double. 
@@ -25,14 +26,21 @@ Possibilité_poser_carte :
         || ET (L'écart entre les cartes les plus éloignées sur le plateau, incluant celle-ci, ne dépasse pas 6 cases en largeur et en hauteur)
 || Post : Aucune modification du plateau (fonction d'observation uniquement)
 || Résultat : Renvoie Vrai si toutes les conditions sont respectées, Faux sinon 
-Possibilité_poser_carte : Plateau x Carte -> Boolean
- 
+Possibilité_poser_carte : Plateau x Carte x Position -> Boolean
+
 Poser_carte : 
 ||Rôle : Pose une carte sur le plateau 
 ||Pré : posibilité_poser_carte(carte) = True
 ||Post : 
 ||Résultat : renvoie le plateau avec un changement  d'état (pose la carte à la case choisie)
-Poser_carte : Plateau x Carte -> Plateau
+Poser_carte : Plateau x Carte x Position -> Plateau
+
+Carte_Position :
+||Rôle : Voir quelle Carte? il y a sur le Plateau à une Position donnée
+||Pré : Il faut que la Position se trouve à l'intérieur du Plateau
+||Post : 
+||Résultat : Renvoie l'élément se trouvant à la Position sur le Plateau
+Carte_Position : Plateau x Position -> Carte?
 
 Victoire_manche  : 
 ||Rôle : — Détermine l’issue de la manche à partir de l’état du plateau
