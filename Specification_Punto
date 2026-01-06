@@ -59,6 +59,13 @@ Poser_carte :
 ||Résultat : renvoie le plateau avec un changement  d'état (pose la carte à la case choisie)
 Poser_carte : Plateau x Carte  x Position -> Plateau
 
+Carte_Position :
+||Rôle : Voir quelle Carte? il y a sur le Plateau à une Position donnée
+||Pré : Il faut que la Position se trouve à l'intérieur du Plateau
+||Post : 
+||Résultat : Renvoie l'élément se trouvant à la Position sur le Plateau
+Carte_Position : Plateau x Position -> Carte?
+
 Victoire_manche  : 
 ||Rôle : — Détermine l’issue de la manche à partir de l’état du plateau
     ||indique si un joueur a aligné 5 cartes de sa couleur  
