@@ -4,29 +4,32 @@ Propriétés :
 -Couleur : {jaune, rouge, bleu, vert}
 -Valeur : Entier de 1 à 9 inclus.
 
+Invariant : 
+||Une carte ne peut pas changer de valeur ou de couleur après sa création.
+
+
 Contraintes : 
 || Chaque joueur possède initialement 18 cartes de sa couleur respective. 
 || Il possède chaque valeur (de 1 à 9) en double. 
 || Toutes les cartes sont disposées face cachée dans la pile (pioche) du joueur.
-
 ------------------------------------------------------------------------------------------------------------
-
 Type abstrait : Position
 || Représente une case du plateau de jeu.
 
 Propriétés :
-|| Coordonnée horizontale
-|| Coordonnée verticale
+|| x : Coordonnée horizontale
+|| y : Coordonnée verticale
+
+créer_position : Int x Int --> Position
+pour créer une position que l'on utilise pour poser, regarder une carte 
 
 Egalité_position :
     || Rôle : Déterminer si deux positions désignent exactement la même case du plateau.
 
 || Pré : Les deux positions sont valides.
-
 || Post :
     || Aucune modification de l’état du jeu.
     || Fonction d’observation uniquement.
-
 || Résultat :
     || Renvoie Vrai si et seulement si les deux positions correspondent à une même case du plateau.
     || Renvoie Faux sinon.
@@ -35,19 +38,22 @@ Egalité_position : Position x Position -> Bool
 ------------------------------------------------------------------------------------------------------------
 
 Type Abstrait : Plateau
+
+Invariant : 
+||Le nombre total de cartes posées est <= 36.
+|| Une carte visible sur le plateau a toujours une valeur strictement supérieure à celle qu'elle recouvre (si elle recouvre quelque chose).
+||Toute carte (sauf la toute première de la manche) doit être adjacente (côté ou coin) à au moins une autre carte.
+
 init :
 ||Rôle : Crée et initialise un plateau vide 
 ||Pré :
-||Post :
+||Post : Le plateau est vide 
 |Résultat : Renvoie un plateau ne contenant aucune carte (toutes les cases sont libres) 
 init : -> Plateau
 
 Possibilité_poser_carte :
 || Rôle : Vérifie si la carte peut être posée à la case choisie 
-|| Pré : La carte est valide :
-        || - (Le plateau est vide) OU (La case est adjacente à une carte déjà présente par un côté ou un coin)
-        || ET (La case est vide) OU (La valeur de la nouvelle carte est strictement supérieure  l'ancienne)
-        || ET (L'écart entre les cartes les plus éloignées sur le plateau, incluant celle-ci, ne dépasse pas 6 cases en largeur et en hauteur)
+|| Pré : La carte est la position fournies sont valides *(1).
 || Post : Aucune modification du plateau (fonction d'observation uniquement)
 || Résultat : Renvoie Vrai si toutes les conditions sont respectées, Faux sinon 
 Possibilité_poser_carte : Plateau x Carte x Position -> Bool
@@ -59,23 +65,10 @@ Poser_carte :
 ||Résultat : renvoie le plateau avec un changement  d'état (pose la carte à la case choisie)
 Poser_carte : Plateau x Carte  x Position -> Plateau
 
-Carte_Position :
-||Rôle : Voir quelle Carte? il y a sur le Plateau à une Position donnée
-||Pré : Il faut que la Position se trouve à l'intérieur du Plateau
-||Post : 
-||Résultat : Renvoie l'élément se trouvant à la Position sur le Plateau
-Carte_Position : Plateau x Position -> Carte?
-
 Victoire_manche  : 
-||Rôle : — Détermine l’issue de la manche à partir de l’état du plateau
-    ||indique si un joueur a aligné 5 cartes de sa couleur  
-    ||sinon si  les 36 cartes ont été déposées  : 
-        ||si un joueur a le plus de 4 cartes alignées que l'autre
-        ||sinon si un joueur a le plus de 3 cartes alignées que l'autre 
-        ||sinon si un joueur a le plus de 2 cartes alignées que l'autre 
-        ||sinon égalité 
+||Rôle : — Détermine l’issue de la manche à partir de l’état du plateau selon les conditions de victoire établies *(2).
 ||Pré : Le plateau est valide 
-||Post : 
+||Post : Aucun
 ||Résultat :
     || Renvoie le joueur gagnant si la manche est remportée,
     || Renvoie Aucun sinon.
@@ -89,46 +82,84 @@ Ajouter_victoire_manche :
     || Le nombre de victoires de manche du joueur est strictement inférieur à 2.
 || Post : Le nombre de victoires de manche du joueur est augmenté de 1.
 || Résultat :Renvoie le joueur mis à jour.
-
 Ajouter_victoire_manche : Joueur -> Joueur
+
+
+Carte_Position : 
+||Rôle : voir quelle carte? il y a ur le Plateau à une position donnée 
+||Pré : Il faut  que la Position se trouve à l'intérieur du Plateau
+||Post : Aucun
+||Résultat : Renvoie l'éléemnt se trouvant à la Position sur le Plateau
+Carte_Position : Plateau x Position -> Carte?
+
+*(1) condition poser carte : Adjacence : Sauf pour la première carte, toute carte doit être adjacente (côté ou diagonale) à une carte déjà présente.
+Recouvrement : On peut poser sur une case vide ou sur une carte existante si la valeur de la nouvelle carte est strictement supérieure.
+Aire de jeu : Le plateau est limité à un rectangle virtuel de 6x6 cases. Aucune carte ne peut être posée si elle porte la distance entre les deux cartes les plus éloignées à plus de 6 cases (en largeur ou en hauteur).
+
+*(2) condition de victoire : 
+Victoire immédiate : Un joueur aligne 5 cartes de sa couleur (horizontalement, verticalement ou diagonalement).
+Fin de pioche (36 cartes posées) : Si personne n'a aligné 5 cartes, on compare les alignements inférieurs par ordre de priorité :
+Le joueur ayant le plus grand nombre de séries de 4 cartes alignées gagne.
+En cas d'égalité, le plus grand nombre de séries de 3 cartes.
+En cas d'égalité, le plus grand nombre de séries de 2 cartes.
+Si l'égalité persiste, la manche est nulle.
 
 ------------------------------------------------------------------------------------------------------------
 
 Type abstrait : Joueur 
-Propriétés  : 
--Main : l'ensemble de la pile de carte qu'il a (de couleur unique)  (mélangé aléatoirement)
--Nom : un nom pour le distinger
--Couleur : (rouge, jaune, vert, bleu)
--Nombre de victoire de manche (condition : inférieur ou égale à deux)
-- SonTour : désigne la personne qui à le tour (True si la personne joue, False sinon)
+
+-Pioche : Pile de cartes de la couleur du joueur
+-Nom :  Nom pour le distinger
+-Couleur : {rouge, jaune, vert, bleu}
+-Score  : Entier de 0 à 2 
+- SonTour : Bool, désigne la personne qui doit jouer (True si la personne joue, False sinon)
+
+Invariant : 
+||Toutes les cartes dans la Pioche ont la même Couleur que le joueur.
+||La Pioche contient exactement 18 cartes initialement (chaque valeur de 1 à 9 en double).
+||Le score ne peut pas dépasser 2.
 
 init : 
-||Rôle : initialise un joueur 
-||Pre : il y a un maximum de deux joueurs
-||Post : la couleur attribuée n'est pas la même que les celle des autres joueurs
-||Résultat : renvoie un joueur avec sa main, son nom, sa couleur et son nombre de victoire de partie = 0
-init : Main x Nom x Couleur x Nombre de victoire de manche x SonTour -> Joueur
+||Rôle : Crée un nouveau joueur 
+||Pre : La couleur choisie n'est pas déjà prise par un autre joueur 
+||Post : le score est égal à 0, le nom et la couleur correspondent aux paramètres saisis dans la fonction 
+||Résultat : renvoie un joueur avec sa Pioche, son nom, sa couleur et son nombre de victoire de partie = 0
+init :  Nom x Couleur  -> Joueur
+
+-La pioche est automatiquement remplie avec 18 carte de la couluer du joueur (chaque valeur de 1 à 9 en double)
 
 Tirer : 
-||Rôle : Le joueur tire une carte au dessus de la main
-||Pré : sa main n'est pas vide  
-||Post : La carte tirée ne peut pas avoir était déjà tirée 2 fois.
-         La taille de la main diminue de 1.
-||Résultat : renvoie une carte de sa main
-||Invariant : Le nombre total de carte (dans la main + poser sur le plateau) est égal à 18 pour chaque joueur
-Tirer : Joueur -> Carte
+||Rôle : Retire la carte situé au sommet de la pioche (le joueur tire la carte  au somme de la pioche)
+||Pré : Est_vide_pioche(Joueur) == false
+||Post :la taille de la Pioche diminue de 1, l'état du joueur est mis à jour. 
+||Résultat : renvoie une carte de sa pioche et l'état du joueur est mis à jour
+||Invariant : Le nombre total de carte (dans la Pioche + poser sur le plateau) est égal à 18 pour chaque joueur
+Tirer : Joueur -> Joueur x Carte
+
+Est_vide_pioche : joueru -> Bool
+Role : indique si le joueur n'a plus de cates (utile pour la condition d'égalité/fin de manche)
+
+Consulter_score : Jouer -> Entier
+Role : renvoie le nombre de manchesgagnées 
 
 ------------------------------------------------------------------------------------------------------------
 
 Type abstrait : Jeu
 
+
+Invariant :
+||J1.SonTour != J2.SonTour (Un seul joueur peut jouer à la fois).
+||Pour chaque couleur présente en jeu, la somme des cartes dans la pioche du joueur et des cartes de cette couleur sur le plateau doit être strictement égale à 18.
+
+
 Changement_joueur : 
 ||Rôle : Change le joueur qui joue
 ||Pré : 
 ||Post : le nouveau joueur n'est pas le même que l'ancien
-||Résultat : Donne la main à l'autre joueur :
+||Résultat : Donne la Pioche à l'autre joueur :
             Change SonTour à Vrai l'autre joueur et Faux au joueur actuel
 Changement_joueur : Joueur x Joueur -> Joueur x Joueur
+
 
 Victoire_jeu : 
 ||Rôle : Compte le nombre de parties gagnées, et regarde si égale 2 
@@ -140,6 +171,11 @@ Victoire_jeu : Joueur -> Boolean
 
 //à deux joueurs pour gagner il faut aligner 5 cartes (horizontalement, verticalmement, diagonalement )
 
+
+init_jeu : Nom1 x Couleur1 x Nom2 x Couleur2 -> Jeu
+//pour initialiser le jeu, qui apelle elle même les inits des joueurs et du plateau 
+--Elle crée le plateau via Plateau.init.
+--Elle crée les deux joueurs via Joueur.init.
 ------------------------------------------------------------------------------------------------------------
 
 Scénario d'utilisation : 
