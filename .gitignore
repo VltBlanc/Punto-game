@@ -1,0 +1,11 @@
+# Swift Package Manager
+.build/
+Packages/
+Package.resolved
+
+# Fichiers de configuration CLion / AppCode
+.idea/
+cmake-build-*/
+
+# Fichiers système
+.DS_Store
