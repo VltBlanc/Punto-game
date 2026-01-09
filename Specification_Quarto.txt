@@ -1,0 +1,275 @@
+Type Joueur = { Joueur1, Joueur2 }
+
+Type StatutPartie = { EnCours, Victoire, MatchNul }
+
+Type Coordonnée = (ligne, colonne)
+avec :
+ligne ∈ {1, 2, 3, 4}
+colonne ∈ {1, 2, 3, 4}
+
+Type Catégorie = { TAILLE, COULEUR, FORME, REMPLISSAGE }
+
+Type Attribut = { GRAND, PETIT, CLAIR, FONCE, ROND, CARRE, PLEIN, CREUX }
+categorieDe : Attribut → Catégorie
+//postcond : 
+-categorieDe(GRAND) = TAILLE
+-categorieDe(PETIT) = TAILLE
+-categorieDe(CLAIR) = COULEUR
+-categorieDe(FONCE) = COULEUR
+-categorieDe(ROND) = FORME
+-categorieDe(CARRE) = FORME
+-categorieDe(PLEIN) = REMPLISSAGE
+-categorieDe(CREUX) = REMPLISSAGE
+
+sontEgaux : Attribut × Attribut → Bool
+//postcond: sontEgaux(a1, a2) = Vrai ⇔ a1 = a2
+
+
+Type Pièce : 
+Invariant : Pour toute Pièce p :
+∀ c ∈ Catégorie, 
+il existe exactement un Attribut a, tel que categorieDe(a) = c, et a caractérise p
+
+
+getAttribut : Pièce x Categorie -> Attribut
+// Récupère la valeur de la pièce pour une catégorie donnée
+//postcond : categorieDe(getAttribut(p, c)) = c
+
+
+
+partagentAttribut : Pièce x Pièce x Categorie -> Bool
+// Vérifie si deux pièces ont la même valeur pour une catégorie
+//postcond: partagentAttribut(p1, p2, c) = sontEgaux(getAttribut(p1, c), getAttribut(p2, c))
+
+ontAttributCommun : Pièce × Pièce → Bool
+//vérifie si deux pièces ont au moins un attribut en commun, sans distinction
+//postcond : ontAttributCommun(p1, p2) = ∃ c ∈ Catégorie, partagentAttribut(p1, p2, c)
+
+Type Plateau : 
+invariants : - Chaque coordonnée contient au plus une pièce
+- Toutes les coordonnées utilisées sont valides
+
+estLibre : Plateau × Coordonnée → Bool
+//Vérifie si une case est vide
+
+getPieceAuxCoordonnees : Plateau × Coordonnée → Pièce 
+//precond : ¬ estLibre(p, c)
+//donne la pièce aux coordonnées spécifiées
+
+estPlein : Plateau → Bool 
+//postcond : estPlein(p) ⇔ ∀ c, ¬ estLibre(p, c)
+// Vérifie si les 16 cases sont occupées
+
+aUnAlignement : Plateau × Coordonnée → Bool 
+ // Vérifie si la pose en 'coord' complète une ligne/colonne/diagonale gagnante
+//postcond : Résultat vrai s’il existe une ligne, colonne ou diagonale passant par la coordonnée c, contenant exactement 4 pièces, partageant au moins un attribut A commun.
+
+
+
+Type Jeu : 
+Invariants : 
+- Toute pièce est soit :
+  • dans la réserve
+  • sur le plateau
+  • en transit
+- Une pièce ne peut appartenir qu’à un seul de ces ensembles
+- pieceEnTransit ≠ Vide ⇒ elle n’est ni sur le plateau ni dans la réserve
+-L'ensemble de toutes les pièces du jeu (Réserve ∪ Plateau ∪ {PièceEnTransit}) contient 16 pièces toutes distinctes (combinaisons uniques d'attributs).
+
+getJoueurCourant : Jeu → Joueur
+//Indique quel Joueur est en train de Jouer
+
+getReserve : Jeu → Ensemble de Pièces
+ // Liste des pièces qui n'ont pas encore été Jouées
+
+getPieceEnTransit : Jeu → Pièce ∪ {Vide}
+// La pièce choisie par l'adversaire que le joueur courant DOIT poser.
+// Retourne Vide si on est dans la phase de choix (aucune pièce imposée).
+
+getStatut : Jeu → StatutPartie
+//Retourne l’état de la partie : en cours, victoire ou match nul
+
+initialiserPartie : () → Jeu 
+// Initialise la Partie
+// postcond: plateau vide, réserve pleine (16), pieceEnTransit = Vide, statut = enCours
+- pieceEnTransit = Vide
+- statut = EnCours
+
+choisirPiecePourAdversaire : Jeu × Pièce → Jeu 
+//Choisit la pièce que le joueur va donner à l’adversaire
+//precond : - p ∈ getReserve(Partie)
+- getPieceEnTransit(Partie) = Vide
+- getStatut(Partie) = EnCours
+//postcond : - p retirée de la réserve
+- pieceEnTransit = p
+- Joueur courant changé
+
+poserPieceSurPlateau : Jeu × Coordonnée → Jeu
+//pose la pièce spécifiée par la fonction choisirPiecePourAdversaire aux coordonnées spécifiées
+//precond : - getPieceEnTransit(Partie) ≠ Vide
+- estLibre(plateau(Partie), c)
+- getStatut(Partie) = EnCours
+//postcond : - la pièce est placée sur la coordonnée c
+- pieceEnTransit = Vide
+- si aUnAlignement(plateau, c) alors statut = Victoire
+- sinon si plateau plein alors statut = MatchNul 
+	
+
+
+
+
+
+
+
+
+
+
+Scénarios:
+
+Création d’une nouvelle partie :
+
+Partie = initialiserPartie()
+
+Etat des propriétés: 
+//La partie vient de commencer
+getStatut(Partie) = EnCours
+
+//Personne n’a encore rien fait et la réserve est encore pleine
+getPieceEnTransit(Partie) = Vide
+|getReserve(Partie)| = 16
+
+Pour toute coordonnée c :
+//Le plateau est vide
+estLibre(plateau(Partie), c) = Vrai
+
+Premier choix de pièce (début de partie)
+1.	Joueur courant : Joueur1
+
+2.	Choix d’une pièce p1 appartenant à la réserve :
+
+//Le joueur 1 choisit une pièce que le joueur 2 devra poser
+Partie = choisirPiecePourAdversaire(Partie, p1)
+
+Etat des propriétés : 
+//La piece choisit  est en “transition”
+getPieceEnTransit(Partie) = p1
+
+//La piece ne fait plus partie de la Réserve
+p1 ∉ getReserve(Partie)
+
+// Le joueur devient Joueur 2, qui devra poser la piece
+getJoueurCourant(Partie) = Joueur2
+
+Pose d’une pièce sur le plateau
+1.	Joueur courant : Joueur2
+
+2.	La pièce p1 est en transit
+
+3.	Choix d’une coordonnée libre (2,2) :
+
+//La pièce est posée sur le plateau aux coordonnées indiquées
+Partie = poserPieceSurPlateau(Partie, (2,2))
+Etat des propriétés :
+//L’emplacement n’est plus libre
+estLibre(plateau(Partie), (2,2)) = Faux
+
+//La pièce à ces coordonnées est celle que l’on vient de poser
+getPieceAuxCoordonnees(plateau(Partie), (2,2)) = p1
+
+//La pièce est posée, il n’y a plus de pièce en transit
+getPieceEnTransit(Partie) = Vide
+
+// La partie est toujours en cours
+getStatut(Partie) = EnCours
+
+________________________________________
+Enchaînement d’un tour complet
+1.	Joueur courant : Joueur2
+
+2.	Choix d’une pièce p2 :
+
+Partie = choisirPiecePourAdversaire(Partie, p2)
+
+3.	Joueur courant : Joueur1
+
+4.	Pose de la pièce p2 en (1,1) :
+
+Partie = poserPieceSurPlateau(Partie, (1,1))
+
+Etat des propriétés :
+getPieceAuxCoordonnees(plateau(Partie), (1,1)) = p2
+getPieceEnTransit(Partie) = Vide
+getJoueurCourant(Partie) = Joueur1
+
+
+Victoire par alignement
+Précondition
+Le plateau contient déjà trois pièces alignées sur la ligne 1 :
+●	(1,1), (1,2), (1,3)
+
+●	Ces pièces partagent au moins un attribut commun.
+
+La pièce en transit p4 partage également cet attribut.
+
+// Le joueur pose p4, aligné aux pièces p1,p2 et p3
+Partie = poserPieceSurPlateau(Partie, (1,4))
+
+Etat des propriétés :
+
+// Il y a un alignement
+aUnAlignement(plateau(Partie), (1,4)) = Vrai
+
+// Le joueur ayant posé p4 a gagné
+getStatut(Partie) = Victoire
+
+Match nul
+Précondition
+●	Le plateau est rempli sauf une case
+
+●	Aucune pose précédente n’a déclenché de victoire
+
+●	La pièce en transit ne permet pas d’alignement gagnant
+
+//Le joueur pose la dernière pièce en réserve
+Partie = poserPieceSurPlateau(Partie, c)
+(où c est la dernière case libre)
+
+Etat des propriétés :
+
+//La plateau est rempli
+estPlein(plateau(Partie)) = Vrai
+
+//Fin de partie, pas d’alignement
+getStatut(Partie) = MatchNul
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+}
+
+
+
+
+
+
