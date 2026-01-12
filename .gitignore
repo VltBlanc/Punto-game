@@ -12,4 +12,4 @@ cmake-build-*/
 
 
 # Fichier .vscode 
-.vscode
+.vscode/
