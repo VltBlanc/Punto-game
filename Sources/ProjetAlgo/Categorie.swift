@@ -1,6 +1,11 @@
 // https://docs.swift.org/swift-book
 
-enum Categorie {
+
+protocol ProtocolCategorie {
+//Type Catégorie = { TAILLE, COULEUR, FORME, REMPLISSAGE }
+}
+
+enum Categorie : ProtocolCategorie {
     case TAILLE
     case COULEUR
     case FORME
