@@ -1,0 +1,24 @@
+{
+    "configurations": [
+        {
+            "type": "swift",
+            "request": "launch",
+            "args": [],
+            "cwd": "${workspaceFolder:projetAlgo}",
+            "name": "Debug ProjetAlgo",
+            "target": "ProjetAlgo",
+            "configuration": "debug",
+            "preLaunchTask": "swift: Build Debug ProjetAlgo"
+        },
+        {
+            "type": "swift",
+            "request": "launch",
+            "args": [],
+            "cwd": "${workspaceFolder:projetAlgo}",
+            "name": "Release ProjetAlgo",
+            "target": "ProjetAlgo",
+            "configuration": "release",
+            "preLaunchTask": "swift: Build Release ProjetAlgo"
+        }
+    ]
+}
