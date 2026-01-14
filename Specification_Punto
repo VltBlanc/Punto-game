@@ -12,6 +12,7 @@ Contraintes :
 || Chaque joueur possède initialement 18 cartes de sa couleur respective. 
 || Il possède chaque valeur (de 1 à 9) en double. 
 || Toutes les cartes sont disposées face cachée dans la pile (pioche) du joueur.
+
 ------------------------------------------------------------------------------------------------------------
 Type abstrait : Position
 || Représente une case du plateau de jeu.
