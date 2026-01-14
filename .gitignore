@@ -9,3 +9,7 @@ cmake-build-*/
 
 # Fichiers système
 .DS_Store
+
+
+# Fichier .vscode 
+.vscode/
