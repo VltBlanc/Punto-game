@@ -1,8 +1,7 @@
 // https://docs.swift.org/swift-book
 
-
-protocol ProtocolCategorie {
-//Type Catégorie = { TAILLE, COULEUR, FORME, REMPLISSAGE }
+protocol ProtocolCategorie{
+    //Type Catégorie = { TAILLE, COULEUR, FORME, REMPLISSAGE }
 }
 
 enum Categorie : ProtocolCategorie {
