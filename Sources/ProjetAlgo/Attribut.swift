@@ -1,6 +1,6 @@
 // https://docs.swift.org/swift-book
 
-protocol Attribut {
+protocol ProtocoleAttribut {
     /*
     Type Attribut = { GRAND, PETIT, CLAIR, FONCE, ROND, CARRE, PLEIN, CREUX }
     categorieDe : Attribut → Catégorie
