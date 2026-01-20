@@ -10,6 +10,7 @@ colonne ∈ {1, 2, 3, 4}
 Type Catégorie = { TAILLE, COULEUR, FORME, REMPLISSAGE }
 
 Type Attribut = { GRAND, PETIT, CLAIR, FONCE, ROND, CARRE, PLEIN, CREUX }
+
 categorieDe : Attribut → Catégorie
 //postcond : 
 -categorieDe(GRAND) = TAILLE
