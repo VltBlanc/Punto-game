@@ -41,7 +41,16 @@ enum Attribut {
     //Catégorie REMPLISSAGE  
     case PLEIN
     case CREUX
+
+    func categorieDe() -> Categorie {
+        if self == .GRAND || self == .PETIT {
+            return .TAILLE
+        } else if self == .CLAIR || self == .FONCE {
+            return .COULEUR
+        } else if self == .ROND || self == .CARRE {
+            return .FORME
+        } else { // .PLEIN || .CREUX
+            return .REMPLISSAGE
+        } 
+    }
 }
-
-
-//implémentation enum pour le type attribut est-elle bien choisi est bien faite, suit elle la spécif 
