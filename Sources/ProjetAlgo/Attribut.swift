@@ -3,6 +3,7 @@
 protocol protocolAttribut {
     /*
     Type Attribut = { GRAND, PETIT, CLAIR, FONCE, ROND, CARRE, PLEIN, CREUX }
+    
     categorieDe : Attribut → Catégorie
     //postcond :
     -categorieDe(GRAND) = TAILLE
@@ -24,3 +25,23 @@ protocol protocolAttribut {
 }
 
 
+enum Attribut {
+    //Catégorie TAILLE
+    case GRAND 
+    case PETIT 
+    
+    //Catégorie COULEUR 
+    case CLAIR
+    case FONCE
+
+    //Catégorie FORME
+    case ROND
+    case CARRE
+    
+    //Catégorie REMPLISSAGE  
+    case PLEIN
+    case CREUX
+}
+
+
+//implémentation enum pour le type attribut est-elle bien choisi est bien faite, suit elle la spécif 
