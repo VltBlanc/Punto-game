@@ -53,4 +53,10 @@ enum Attribut {
             return .REMPLISSAGE
         } 
     }
+
+    // Vérifie si deux Attributs sont égaux
+    static func sontEgaux(_ a1: Attribut, _ a2: Attribut) -> Bool {
+        return a1 == a2
+    }
+    
 }
