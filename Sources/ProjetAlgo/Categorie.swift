@@ -4,7 +4,7 @@ protocol ProtocolCategorie{
     //Type Catégorie = { TAILLE, COULEUR, FORME, REMPLISSAGE }
 }
 
-enum Categorie {
+enum Categorie : CaseIterable{
     case TAILLE
     case COULEUR
     case FORME
