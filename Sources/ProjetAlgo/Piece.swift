@@ -44,8 +44,6 @@ struct Piece{
                 return self.forme
             case .REMPLISSAGE:
                 return self.remplissage
-            default :
-                fatalError("(getAttribut) Categorie non supportée !")
         }
     }
 
