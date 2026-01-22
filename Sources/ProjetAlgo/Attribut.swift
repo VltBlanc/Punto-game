@@ -1,11 +1,10 @@
 // https://docs.swift.org/swift-book
 
 protocol protocolAttribut {
-    /*
-    Type Attribut = { GRAND, PETIT, CLAIR, FONCE, ROND, CARRE, PLEIN, CREUX }
+
+    //Type Attribut = { GRAND, PETIT, CLAIR, FONCE, ROND, CARRE, PLEIN, CREUX }
     
-    categorieDe : Attribut → Catégorie
-    //postcond :
+    /*postcond :
     -categorieDe(GRAND) = TAILLE
     -categorieDe(PETIT) = TAILLE
     -categorieDe(CLAIR) = COULEUR
@@ -14,14 +13,14 @@ protocol protocolAttribut {
     -categorieDe(CARRE) = FORME
     -categorieDe(PLEIN) = REMPLISSAGE
     -categorieDe(CREUX) = REMPLISSAGE
+    */
+    func categorieDe( atr : Attribut) -> Categorie
 
-    func CategorieDe(Attribut) -> Categorie{}
-
-
+    
     //postcond: sontEgaux(a1, a2) = Vrai ⇔ a1 = a2
-    sontEgaux : Attribut × Attribut → Bool
-    func sontEgaux(Attribut1 × Attribut2) → Bool{}
-     */
+    //sontEgaux : Attribut × Attribut → Bool
+    func sontEgaux(Attribut1 : Attribut, Attribut2 : Attribut) -> Bool
+
 }
 
 
