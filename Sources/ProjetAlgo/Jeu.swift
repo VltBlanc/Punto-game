@@ -69,6 +69,10 @@ struct Jeu : ProtocolJeu {
         self.initialiserPartie()
     }
 
+    func getPlateau() -> Plateau{
+        return self.plateauDeJeu
+    }
+
     func getJoueurCourant() -> Joueur{ 
       return self.joueurCourant 
     }
@@ -155,8 +159,26 @@ struct Jeu : ProtocolJeu {
 
 
     mutating func poserPieceSurPlateau(_ c: Coordonnee) {
-      // À faire (problème rencontré, il faut rajouter une fonction dans le type plateau
-      // Pour poser une pièce )
+        // Vérifie si une piece est en transit
+        guard let piece = getPieceEnTransit() else{
+            fatalError("Erreur : Impossible de placer la pièce, Pas de Piece en transit")
+        }
+        // Vérifie si la case est libre
+        guard self.plateauDeJeu.estLibre(c) else{
+            fatalError("Erreur : Impossible de placer la pièce, La case est déjà occupée")
+        }
+        // Vérifie si la partie est en cours
+        guard self.statut == .Encours else{
+            fatalError("Erreur : Impossible de placer la pièce, La partie est terminé")
+        }
+        self.plateauDeJeu.placerPiece(piece,c)
+        self.pieceEnTransit = nil
+        if self.plateauDeJeu.aUnAlignement(c){
+            self.statut = .Victoire
+        }
+        else if self.plateauDeJeu.estPlein(){
+            self.statut = .MatchNUl
+        }
     }
 
 }
