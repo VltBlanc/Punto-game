@@ -102,4 +102,10 @@ struct Plateau : ProtocolPlateau {
         || (i + j == 3 && commun(grille[0][3], grille[1][2], grille[2][1], grille[3][0])) // Vérifie la diagonale : (haut-droite → bas-gauche) 
     }
 
+    /* fonction rajouter
+     * Utiliser dans func poserPieceSurPlateau
+     */
+    mutating func placerPiece(_ piece : Piece, _ c : Coordonnee){
+        self.grille[c.ligne-1][c.colonne - 1] = piece
+    }
 }
