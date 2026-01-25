@@ -25,6 +25,11 @@ protocol ProtocolJeu {
     // Retourne l’état de la partie : en cours, victoire ou match nul
     func getStatut() -> EtatPartie
 
+    // Permet d'accéder au plateau de jeu pour consulter son état (cases libres, alignements).
+    // postcond : retourne l'objet Plateau (de la partie en cours).
+    func getPlateau() -> Plateau
+
+
     // Initialise la partie
     // postcond : plateau vide, réserve pleine (16), pieceEnTransit = Vide, statut = enCours
     // || pieceEnTransit = Vide
