@@ -1,7 +1,5 @@
 // https://docs.swift.org/swift-book
 
-import Foundation
-
 func printPiece(_ p: Piece) -> String {
     let t = (p.getAttribut(.TAILLE) == .GRAND) ? "G": "P"
     let c = (p.getAttribut(.COULEUR) == .CLAIR) ? "C": "F"
@@ -60,11 +58,10 @@ func printLegende() {
 func lireEntier(_ message: String, min: Int, max: Int) -> Int {
     while true {
         print(message, terminator: "")
-        fflush(stdout)
         if let input = readLine(), let nombre = Int(input), nombre >= min && nombre <= max {
             return nombre
         }
-        print("Erreur, Entrez un nombre entre \(min) et \(max).")
+        print("Entrée invalide. Veuillez saisir un nombre entre \(min) et \(max).")
     }
 }
 
