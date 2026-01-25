@@ -17,6 +17,7 @@ protocol protocolAttribut {
     func categorieDe( atr : Attribut) -> Categorie
 
     
+    // Vérifie si deux Attributs sont égaux
     //postcond: sontEgaux(a1, a2) = Vrai ⇔ a1 = a2
     //sontEgaux : Attribut × Attribut → Bool
     func sontEgaux(Attribut1 : Attribut, Attribut2 : Attribut) -> Bool
@@ -53,7 +54,6 @@ enum Attribut {
         } 
     }
 
-    // Vérifie si deux Attributs sont égaux
     static func sontEgaux(_ a1: Attribut, _ a2: Attribut) -> Bool {
         return a1 == a2
     }

@@ -22,10 +22,10 @@ protocol ProtocolPiece {
 }
 
 struct Piece{
-    var taille: Attribut
-    var couleur: Attribut
-    var forme: Attribut
-    var remplissage: Attribut
+    let taille: Attribut
+    let couleur: Attribut
+    let forme: Attribut
+    let remplissage: Attribut
 
     init(_ t : Attribut,_ c : Attribut,_ f : Attribut,_ r : Attribut) {
         self.taille = t

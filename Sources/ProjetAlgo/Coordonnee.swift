@@ -12,8 +12,8 @@ protocol ProtocolCoordonnee {
 }
 
 struct Coordonnee : ProtocolCoordonnee {
-    var ligne : Int
-    var colonne : Int 
+    let ligne : Int
+    let colonne : Int 
 
  init(ligne: Int, colonne: Int) {
         // Vérification des conditions nécessaires    
