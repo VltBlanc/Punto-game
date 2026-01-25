@@ -3,7 +3,7 @@
 Projet de développement d'algorithmes réalisé en Swift dans le cadre de la formation à Polytech Montpellier.
 
 ## Présentation
-Ce projet implémente différents algorithmes (à préciser selon votre sujet). Il utilise **Swift Package Manager (SPM)** pour la gestion de la compilation et des dépendances.
+Ce projet implémente le jeu Quadro. Il utilise **Swift Package Manager (SPM)** pour la gestion de la compilation et des dépendances.
 
 ## Structure du Projet
 Le projet suit l'architecture standard d'un paquet Swift :
