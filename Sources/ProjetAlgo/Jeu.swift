@@ -5,8 +5,8 @@ protocol ProtocolJeu {
     Invariants :
     - Toute pièce est soit :
       • dans la réserve
-      • sur le plateau
-      • en transit
+      • sur le plateautransit
+      • en 
     - Une pièce ne peut appartenir qu’à un seul de ces ensembles
     - pieceEnTransit ≠ Vide ⇒ elle n’est ni sur le plateau ni dans la réserve
     - L'ensemble de toutes les pièces du jeu (Réserve ∪ Plateau ∪ {PièceEnTransit}) contient 16 pièces toutes distinctes (combinaisons uniques d'attributs).

@@ -54,7 +54,7 @@ enum Attribut {
         } 
     }
 
-    static func sontEgaux(_ a1: Attribut, _ a2: Attribut) -> Bool {
+    func sontEgaux(_ a1: Attribut, _ a2: Attribut) -> Bool {
         return a1 == a2
     }
     

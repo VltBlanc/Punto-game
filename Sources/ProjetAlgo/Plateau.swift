@@ -69,10 +69,10 @@ struct Plateau : ProtocolPlateau {
     func commun(_ p0: Piece?, _ p1: Piece?, _ p2: Piece?, _ p3: Piece?) -> Bool {
         // Vérifie que toutes les cases contiennent une pièce
         guard let a = p0, let b = p1, let c = p2, let d = p3 else {
-            return false // précondition : il faut 4 pièces
+            return false // précondition : il faut 4 pièces !
         }
 
-        let pieces = [a, b, c, d]
+        let pieces: [Piece] = [a, b, c, d]
         var trouve: Bool = false // devient vrai si un attribut commun est trouvé
 
         // Parcours des catégories
@@ -94,7 +94,7 @@ struct Plateau : ProtocolPlateau {
         return trouve // postcondition : true si au moins une catégorie est commune
     }
 
-    // Retourne vrai si **ligne, colonne ou diagonale** a un attribut commun
+    // Retourne vrai si une ligne, colonne ou diagonale a un attribut commun
     return 
         commun(grille[i][0], grille[i][1], grille[i][2], grille[i][3])   // Vérifie la ligne 
         || commun(grille[0][j], grille[1][j], grille[2][j], grille[3][j]) // Vérifie la colonne 
@@ -102,9 +102,7 @@ struct Plateau : ProtocolPlateau {
         || (i + j == 3 && commun(grille[0][3], grille[1][2], grille[2][1], grille[3][0])) // Vérifie la diagonale : (haut-droite → bas-gauche) 
     }
 
-    /* fonction rajouter
-     * Utiliser dans func poserPieceSurPlateau
-     */
+    //Utiliser dans func poserPieceSurPlateau ! 
     mutating func placerPiece(_ piece : Piece, _ c : Coordonnee){
         self.grille[c.ligne-1][c.colonne - 1] = piece
     }
